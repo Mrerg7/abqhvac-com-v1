@@ -1,0 +1,72 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+}
+
+const canonicalPath = Astro.props.path ?? Astro.url.pathname;
+const domain = 'abqhvac.com';
+const fullUrl = `https://${domain}${canonicalPath}`;
+
+const title = Astro.props.title ?? `${domain} | Premium Albuquerque HVAC Domain For Sale`;
+const description = Astro.props.description ?? `${domain} — The premier domain for Albuquerque HVAC businesses. Perfect for residential service companies, commercial contractors, and HVAC brands serving the ABQ metro area. Now available for acquisition.`;
+---
+
+<!-- Primary Meta -->
+<title>{title}</title>
+<meta name="description" content={description}>
+<meta name="keywords" content="abqhvac.com, Albuquerque HVAC domain for sale, ABQ HVAC domain, premium HVAC domain, HVAC business domain, Albuquerque heating and cooling">
+
+<!-- Canonical -->
+<link rel="canonical" href={fullUrl}>
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={fullUrl}>
+<meta property="og:site_name" content={domain}>
+<meta property="og:image" content="https://imagedelivery.net/-sPAUAWeA405NiWJ0SNIQA/335b1bdd-ec88-44ef-8d19-b87ae2d69700/public">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content={title}>
+<meta name="twitter:description" content={description}>
+<meta name="twitter:image" content="https://imagedelivery.net/-sPAUAWeA405NiWJ0SNIQA/335b1bdd-ec88-44ef-8d19-b87ae2d69700/public">
+
+<!-- Structured Data: WebSite -->
+<script type="application/ld+json" set:html={`{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "${domain}",
+  "url": "https://${domain}/",
+  "description": "${description}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://${domain}/search?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}`}>
+</script>
+
+<!-- Structured Data: Organization -->
+<script type="application/ld+json" set:html={`{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "${domain}",
+  "url": "https://${domain}/",
+  "description": "${description}",
+  "logo": "https://imagedelivery.net/-sPAUAWeA405NiWJ0SNIQA/335b1bdd-ec88-44ef-8d19-b87ae2d69700/public",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "sales@desertrich.com",
+    "contactType": "sales"
+  }
+}`}>
+</script>

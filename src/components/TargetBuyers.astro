@@ -1,0 +1,20 @@
+---
+interface Props {
+  buyers: string[];
+}
+
+const { buyers } = Astro.props;
+---
+
+<section class="max-w-screen-xl mx-auto px-6 py-16 border-t border-slate-800">
+  <h2 class="section-title mb-10">Perfect For</h2>
+
+  <div class="grid md:grid-cols-2 gap-x-8 gap-y-4 text-lg">
+    {buyers.map((buyer) => (
+      <div class="flex items-start gap-x-3">
+        <i class="fa-solid fa-check text-orange-400 mt-1.5 flex-shrink-0"></i>
+        <span>{buyer}</span>
+      </div>
+    ))}
+  </div>
+</section>

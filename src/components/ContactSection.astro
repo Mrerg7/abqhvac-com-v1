@@ -1,0 +1,75 @@
+---
+interface Props {
+  email: string;
+  emailSubject: string;
+}
+
+const { email, emailSubject } = Astro.props;
+const mailtoHref = `mailto:${email}?subject=${encodeURIComponent(emailSubject)}`;
+---
+
+<section id="contact" class="max-w-screen-xl mx-auto px-6 py-20 border-t border-slate-800">
+  <div class="max-w-xl mx-auto">
+    <h2 class="section-title mb-3 text-center">Interested in abqhvac.com?</h2>
+    <p class="text-center text-slate-400 mb-10">Serious buyers only. Please include your company and intended use case.</p>
+
+    <form class="space-y-5" action="#" onsubmit="event.preventDefault(); handleSubmit();">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+          <label class="text-sm text-slate-400 block mb-2">Full Name</label>
+          <input type="text" id="contact-name"
+                 class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3.5 focus:outline-none focus:border-orange-600 transition-colors"
+                 placeholder="John Smith" required>
+        </div>
+        <div>
+          <label class="text-sm text-slate-400 block mb-2">Company</label>
+          <input type="text" id="contact-company"
+                 class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3.5 focus:outline-none focus:border-orange-600 transition-colors"
+                 placeholder="Company Name" required>
+        </div>
+      </div>
+
+      <div>
+        <label class="text-sm text-slate-400 block mb-2">Email Address</label>
+        <input type="email" id="contact-email"
+               class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3.5 focus:outline-none focus:border-orange-600 transition-colors"
+               placeholder="you@company.com" required>
+      </div>
+
+      <div>
+        <label class="text-sm text-slate-400 block mb-2">Message</label>
+        <textarea id="contact-message" rows="4"
+                  class="w-full bg-slate-900 border border-slate-700 rounded-3xl px-5 py-4 focus:outline-none focus:border-orange-600 transition-colors resize-none"
+                  placeholder="Tell us about your company and how you plan to use abqhvac.com…" required></textarea>
+      </div>
+
+      <button type="submit"
+              class="w-full bg-orange-600 hover:bg-orange-500 text-white font-semibold py-4 rounded-3xl text-lg transition-all active:scale-[0.985] shadow-lg shadow-orange-600/20">
+        Send Inquiry
+      </button>
+
+      <div class="text-center pt-3">
+        <span class="text-sm text-slate-500">or email directly: </span>
+        <a href={mailtoHref} class="text-sm text-orange-400 hover:text-orange-300 transition-colors font-medium">{email}</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  function handleSubmit() {
+    const name = document.getElementById('contact-name').value.trim();
+    const company = document.getElementById('contact-company').value.trim();
+    const email = document.getElementById('contact-email').value.trim();
+    const message = document.getElementById('contact-message').value.trim();
+
+    if (!name || !company || !email || !message) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    const subject = `Inquiry for abqhvac.com acquisition — ${name} / ${company}`;
+    const body = `Name: ${name}%0D%0ACompany: ${company}%0D%0AEmail: ${email}%0D%0A%0D%0A${message}`;
+    window.location.href = `mailto:sales@desertrich.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+  }
+</script>

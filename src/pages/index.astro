@@ -1,0 +1,53 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import HeroSection from '../components/HeroSection.astro';
+import WhySection from '../components/WhySection.astro';
+import DomainDetails from '../components/DomainDetails.astro';
+import TargetBuyers from '../components/TargetBuyers.astro';
+import PricingSection from '../components/PricingSection.astro';
+import ContactSection from '../components/ContactSection.astro';
+import Footer from '../components/Footer.astro';
+
+const site = await getEntry('site', 'default');
+const data = site!.data;
+---
+
+<BaseLayout
+  title={`${data.domain} | Premium Albuquerque HVAC Domain For Sale`}
+  description={`${data.domain} — The premier domain for Albuquerque HVAC businesses. Perfect for residential service companies, commercial contractors, and HVAC brands serving the ABQ metro area. Now available for acquisition.`}>
+  <Nav domain={data.domain} />
+  <main>
+    <HeroSection
+      domain={data.domain}
+      heroImage={data.heroImage}
+      trustBadge={data.trustBadge}
+      trustPoints={data.trustPoints}
+      headline={data.heroHeadline}
+      description={data.heroDescription}
+      price={data.price}
+    />
+    <WhySection
+      headline={data.whyHeadline}
+      subheadline={data.whySubheadline}
+      cards={data.valueCards}
+    />
+    <DomainDetails details={data.domainDetails} />
+    <TargetBuyers buyers={data.targetBuyers} />
+    <PricingSection
+      price={data.price}
+      includes={data.pricingIncludes}
+    />
+    <ContactSection
+      email={data.email}
+      emailSubject={data.ctaEmailSubject}
+    />
+  </main>
+  <Footer
+    disclaimer={data.disclaimer}
+    email={data.email}
+    price={data.price}
+    footerLinks={data.footerLinks}
+  />
+</BaseLayout>

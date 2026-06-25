@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --accent: #f97316;
+  }
+
+  body {
+    @apply bg-slate-950 text-slate-200 antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .section-title {
+    @apply text-4xl md:text-5xl font-bold tracking-tight;
+  }
+
+  .glass-card {
+    @apply bg-slate-900 border border-slate-800 rounded-3xl;
+  }
+
+  .accent-glow {
+    box-shadow: 0 0 40px -5px rgba(249, 115, 22, 0.2);
+  }
+
+  .nav-scrolled {
+    background-color: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(12px);
+  }
+}

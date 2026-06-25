@@ -1,0 +1,57 @@
+---
+interface Props {
+  domain: string;
+  heroImage: string;
+  trustBadge: string;
+  trustPoints: string[];
+  headline: string;
+  description: string;
+  price: string;
+}
+
+const { domain, trustBadge, trustPoints, headline, description, price } = Astro.props;
+---
+
+<header class="pt-24 pb-16 md:pt-32 md:pb-20">
+  <div class="max-w-screen-xl mx-auto px-6">
+    <div class="max-w-3xl">
+      <!-- Trust Badge -->
+      <div class="inline-flex items-center gap-x-2 bg-slate-900 border border-slate-800 rounded-3xl px-4 py-1.5 mb-6">
+        <div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+        <span class="text-sm font-medium text-orange-400">{trustBadge}</span>
+      </div>
+
+      <!-- Domain Name -->
+      <h1 class="text-6xl md:text-7xl font-display font-bold tracking-tighter leading-none mb-6">
+        {headline}
+      </h1>
+
+      <!-- Description -->
+      <p class="text-2xl text-slate-300 max-w-lg mb-8 leading-relaxed">
+        {description}
+      </p>
+
+      <!-- CTA Row -->
+      <div class="flex flex-col sm:flex-row items-start gap-4">
+        <a href="#contact"
+           class="inline-flex items-center justify-center bg-white hover:bg-slate-100 transition-all text-slate-950 font-semibold px-8 h-14 rounded-3xl text-lg active:scale-[0.985]">
+          Inquire Now &mdash; {price}
+        </a>
+        <div class="inline-flex items-center gap-x-2 text-sm px-4 py-3 border border-slate-700 rounded-3xl">
+          <span class="font-mono font-semibold">{price}</span>
+          <span class="text-slate-500">USD</span>
+        </div>
+      </div>
+
+      <!-- Trust Points -->
+      <div class="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-slate-400">
+        {trustPoints.map((point) => (
+          <div class="flex items-center gap-x-2">
+            <i class="fa-solid fa-check text-orange-400"></i>
+            <span>{point}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</header>

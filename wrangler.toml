@@ -1,0 +1,13 @@
+name = "abqhvac-com-v1"
+compatibility_date = "2026-06-01"
+workers_dev = false
+preview_urls = false
+
+routes = [
+  { pattern = "abqhvac.com", custom_domain = true },
+  { pattern = "www.abqhvac.com", custom_domain = true }
+]
+
+[assets]
+directory = "./dist"
+html_handling = "auto-trailing-slash"

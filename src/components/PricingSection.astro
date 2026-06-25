@@ -1,0 +1,28 @@
+---
+interface Props {
+  price: string;
+  includes: string[];
+}
+
+const { price, includes } = Astro.props;
+---
+
+<section id="pricing" class="max-w-screen-xl mx-auto px-6 py-16 border-t border-slate-800 bg-slate-900/50">
+  <div class="max-w-2xl mx-auto text-center">
+    <div class="text-orange-400 font-semibold tracking-[3px] text-sm mb-3 uppercase">Premium Local Domain</div>
+    <div class="text-7xl font-display font-bold tracking-tighter mb-4">{price}</div>
+    <p class="text-xl text-slate-300 mb-8">One-time payment. Full ownership.</p>
+
+    <div class="glass-card p-8 text-left max-w-md mx-auto">
+      <div class="font-semibold mb-4">Includes:</div>
+      <ul class="space-y-3 text-sm">
+        {includes.map((item) => (
+          <li class="flex items-center gap-x-3">
+            <i class="fa-solid fa-check text-orange-400 w-4 flex-shrink-0"></i>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
