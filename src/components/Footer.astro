@@ -7,6 +7,7 @@ interface Props {
 }
 
 const { disclaimer, email, price, footerLinks } = Astro.props;
+const mailtoHref = `mailto:${email}?subject=Inquiry%20for%20abqhvac.com%20acquisition`;
 ---
 
 <footer class="border-t border-white/10 bg-slate-950">
@@ -27,7 +28,7 @@ const { disclaimer, email, price, footerLinks } = Astro.props;
         <div class="flex flex-col items-center lg:items-end gap-3">
           <div class="text-3xl font-display font-bold tracking-tight text-white">{price}</div>
           <div class="text-xs text-slate-400">USD &bull; One-time acquisition</div>
-          <a href="mailto:{email}?subject=Inquiry%20for%20abqhvac.com%20acquisition"
+          <a href={mailtoHref}
              class="inline-flex items-center gap-x-2 px-8 py-3 rounded-2xl bg-orange-600 hover:bg-orange-500 text-white font-semibold text-sm transition-all active:scale-[0.985] shadow-lg shadow-orange-600/20">
             <i class="fa-solid fa-envelope"></i>
             <span>{email}</span>
