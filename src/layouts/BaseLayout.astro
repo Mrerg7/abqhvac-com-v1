@@ -2,25 +2,50 @@
 import SEO from '../components/SEO.astro';
 import '../styles/global.css';
 
+interface Crumb {
+  name: string;
+  url: string;
+}
+
+interface Faq {
+  q: string;
+  a: string;
+}
+
 export interface Props {
   title?: string;
   description?: string;
+  faqs?: Faq[];
+  crumbs?: Crumb[];
+  includeProduct?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, faqs, crumbs, includeProduct } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="ZeAUbLY4w9gIIV_dJ4Mr6JKtMpzQeERPePdD-euAJ0w">
-    <SEO title={title} description={description} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#020617" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="google-site-verification" content="ZeAUbLY4w9gIIV_dJ4Mr6JKtMpzQeERPePdD-euAJ0w" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://imagedelivery.net" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    />
+    <SEO title={title} description={description} faqs={faqs} crumbs={crumbs} includeProduct={includeProduct} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
   </head>
-  <body class="overflow-x-hidden">
+  <body class="overflow-x-hidden pb-24 lg:pb-0">
+    <a href="#main" class="skip-link">Skip to content</a>
     <slot />
   </body>
 </html>

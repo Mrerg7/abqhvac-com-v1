@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 interface ValueCard {
   icon: string;
   title: string;
@@ -14,21 +16,26 @@ interface Props {
 const { headline, subheadline, cards } = Astro.props;
 ---
 
-<section id="why" class="max-w-screen-xl mx-auto px-6 py-16 border-t border-slate-800">
-  <div class="max-w-2xl mb-12">
+<section id="why" class="max-w-screen-xl mx-auto px-4 sm:px-6 py-14 border-t border-slate-800">
+  <div class="max-w-2xl mb-10">
     <h2 class="section-title mb-4">{headline}</h2>
-    <p class="text-lg text-slate-400">{subheadline}</p>
+    <p class="text-base sm:text-lg text-slate-400 leading-relaxed">{subheadline}</p>
   </div>
 
-  <div class="grid md:grid-cols-3 gap-6">
+  <div class="grid md:grid-cols-3 gap-4 sm:gap-6">
     {cards.map((card) => (
-      <div class="glass-card p-8">
+      <article class="glass-card p-6 sm:p-8">
         <div class="text-orange-400 mb-4">
-          <i class={`fa-solid fa-${card.icon} text-3xl`}></i>
+          <Icon name={card.icon} class="w-8 h-8" />
         </div>
         <h3 class="font-semibold text-xl mb-3">{card.title}</h3>
         <p class="text-slate-400 leading-relaxed">{card.body}</p>
-      </div>
+      </article>
     ))}
   </div>
+
+  <p class="mt-8 text-sm text-slate-400">
+    Read the longer note on naming, service area, and what a domain does not include:
+    <a href="/albuquerque-hvac/" class="text-orange-400 hover:text-orange-300 font-medium">Albuquerque HVAC domain guide</a>.
+  </p>
 </section>

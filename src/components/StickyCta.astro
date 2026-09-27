@@ -1,0 +1,29 @@
+---
+interface Props {
+  price: string;
+  href?: string;
+}
+
+const { price, href = '/acquire/#inquiry' } = Astro.props;
+---
+
+<div id="sticky-cta" class="lg:hidden fixed bottom-0 inset-x-0 z-50 border-t border-slate-800 bg-slate-950/95 backdrop-blur px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+  <a href={href} class="flex items-center justify-center w-full min-h-12 rounded-2xl bg-orange-600 text-white font-semibold text-base">
+    Acquire abqhvac.com — {price}
+  </a>
+</div>
+
+<script>
+  const bar = document.getElementById('sticky-cta');
+  const inquiry = document.getElementById('inquiry');
+  if (bar && inquiry) {
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        const hide = entry.isIntersecting;
+        bar.classList.toggle('hidden', hide);
+        document.body.classList.toggle('pb-24', !hide);
+      }
+    }, { threshold: 0.25 });
+    observer.observe(inquiry);
+  }
+</script>

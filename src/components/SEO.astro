@@ -1,64 +1,139 @@
 ---
+interface Crumb {
+  name: string;
+  url: string;
+}
+
+interface Faq {
+  q: string;
+  a: string;
+}
+
 export interface Props {
   title?: string;
   description?: string;
   path?: string;
+  faqs?: Faq[];
+  crumbs?: Crumb[];
+  includeProduct?: boolean;
 }
 
-const canonicalPath = Astro.props.path ?? Astro.url.pathname;
 const domain = 'abqhvac.com';
-const fullUrl = `https://${domain}${canonicalPath}`;
+const origin = `https://${domain}`;
+const canonicalPath = Astro.props.path ?? Astro.url.pathname;
+const fullUrl = `${origin}${canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`}`;
+const title = Astro.props.title ?? `${domain} for Sale | Albuquerque HVAC Domain — $18,500`;
+const description =
+  Astro.props.description ??
+  `Buy ${domain}, a 7-character Albuquerque HVAC .com, for $18,500. Escrow transfer. The domain name only — not a service company.`;
+const image = `${origin}/og.jpg`;
+const imageAlt = 'abqhvac.com, an Albuquerque HVAC domain for sale at $18,500';
 
-const title = Astro.props.title ?? `${domain} | Premium Albuquerque HVAC Domain For Sale`;
-const description = Astro.props.description ?? `${domain} — The premier domain for Albuquerque HVAC businesses. Perfect for residential service companies, commercial contractors, and HVAC brands serving the ABQ metro area. Now available for acquisition.`;
+const graph: Record<string, unknown>[] = [
+  {
+    '@type': 'WebSite',
+    '@id': `${origin}/#website`,
+    name: domain,
+    url: `${origin}/`,
+    description: 'Domain-name listing for abqhvac.com, an Albuquerque HVAC .com offered for sale.',
+    inLanguage: 'en-US',
+  },
+  {
+    '@type': 'WebPage',
+    '@id': `${fullUrl}#webpage`,
+    url: fullUrl,
+    name: title,
+    description,
+    isPartOf: { '@id': `${origin}/#website` },
+    primaryImageOfPage: { '@type': 'ImageObject', url: image, width: 1792, height: 1008 },
+    inLanguage: 'en-US',
+  },
+  {
+    '@type': 'Organization',
+    '@id': `${origin}/#seller`,
+    name: 'abqhvac.com',
+    url: `${origin}/`,
+    email: 'sales@desertrich.com',
+    logo: `${origin}/favicon.svg`,
+    description: 'Registrant listing the domain name abqhvac.com for sale. Not an HVAC contractor.',
+    sameAs: ['https://x.com/ERG963'],
+  },
+];
+
+if (Astro.props.includeProduct) {
+  graph.push({
+    '@type': 'Product',
+    '@id': `${origin}/#domain`,
+    name: domain,
+    description: 'Internet domain name abqhvac.com, offered for sale as a brandable Albuquerque HVAC .com.',
+    category: 'Internet domain name',
+    brand: { '@type': 'Brand', name: domain },
+    image,
+    url: `${origin}/`,
+    offers: {
+      '@type': 'Offer',
+      url: `${origin}/acquire/`,
+      priceCurrency: 'USD',
+      price: '18500',
+      availability: 'https://schema.org/InStock',
+      seller: { '@id': `${origin}/#seller` },
+    },
+  });
+}
+
+if (Astro.props.faqs?.length) {
+  graph.push({
+    '@type': 'FAQPage',
+    '@id': `${fullUrl}#faq`,
+    url: fullUrl,
+    mainEntity: Astro.props.faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: faq.a },
+    })),
+  });
+}
+
+if (Astro.props.crumbs?.length) {
+  graph.push({
+    '@type': 'BreadcrumbList',
+    itemListElement: Astro.props.crumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name,
+      item: crumb.url,
+    })),
+  });
+}
+
+const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
 ---
 
-<!-- Primary Meta -->
 <title>{title}</title>
-<meta name="description" content={description}>
-<meta name="keywords" content="abqhvac.com, Albuquerque HVAC domain for sale, ABQ HVAC domain, premium HVAC domain, HVAC business domain, Albuquerque heating and cooling">
+<meta name="description" content={description} />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<link rel="canonical" href={fullUrl} />
+<link rel="alternate" hreflang="en" href={fullUrl} />
+<link rel="alternate" hreflang="x-default" href={fullUrl} />
 
-<!-- Canonical -->
-<link rel="canonical" href={fullUrl}>
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={fullUrl} />
+<meta property="og:site_name" content={domain} />
+<meta property="og:image" content={image} />
+<meta property="og:image:secure_url" content={image} />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1792" />
+<meta property="og:image:height" content="1008" />
+<meta property="og:image:alt" content={imageAlt} />
 
-<!-- Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:title" content={title}>
-<meta property="og:description" content={description}>
-<meta property="og:url" content={fullUrl}>
-<meta property="og:site_name" content={domain}>
-<meta property="og:image" content="https://imagedelivery.net/-sPAUAWeA405NiWJ0SNIQA/3df18419-5c3f-4953-4849-19e2b3953e00/public">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@ERG963" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+<meta name="twitter:image:alt" content={imageAlt} />
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content={title}>
-<meta name="twitter:description" content={description}>
-<meta name="twitter:image" content="https://imagedelivery.net/-sPAUAWeA405NiWJ0SNIQA/3df18419-5c3f-4953-4849-19e2b3953e00/public">
-
-<!-- Structured Data: WebSite -->
-<script type="application/ld+json" set:html={`{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "${domain}",
-  "url": "https://${domain}/",
-  "description": "${description}"
-}`}>
-</script>
-
-<!-- Structured Data: Organization -->
-<script type="application/ld+json" set:html={`{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "${domain}",
-  "url": "https://${domain}/",
-  "description": "${description}",
-  "logo": "https://imagedelivery.net/-sPAUAWeA405NiWJ0SNIQA/3df18419-5c3f-4953-4849-19e2b3953e00/public",
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "email": "sales@desertrich.com",
-    "contactType": "sales"
-  }
-}`}>
-</script>
+<script type="application/ld+json" set:html={jsonLd} />

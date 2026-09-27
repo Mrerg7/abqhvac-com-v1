@@ -11,15 +11,13 @@ interface Props {
 const { details } = Astro.props;
 ---
 
-<section class="max-w-screen-xl mx-auto px-6 py-12 border-t border-slate-800">
-  <div class="glass-card p-10">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-y-8">
-      {details.map((d) => (
-        <div>
-          <div class="text-sm text-slate-400 mb-1">{d.label}</div>
-          <div class="text-2xl font-semibold">{d.value}</div>
-        </div>
-      ))}
-    </div>
-  </div>
+<section aria-label="Domain facts" class="max-w-screen-xl mx-auto px-4 sm:px-6 py-8">
+  <dl class="glass-card p-5 sm:p-8 grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-6">
+    {details.map((detail) => (
+      <div class="min-w-0">
+        <dt class="text-sm text-slate-400 mb-1">{detail.label}</dt>
+        <dd class="text-lg sm:text-2xl font-semibold break-words">{detail.value}</dd>
+      </div>
+    ))}
+  </dl>
 </section>

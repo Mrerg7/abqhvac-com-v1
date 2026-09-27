@@ -1,0 +1,87 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Footer from '../components/Footer.astro';
+import StickyCta from '../components/StickyCta.astro';
+
+const site = await getEntry('site', 'default');
+const data = site!.data;
+const crumbs = [
+  { name: 'Home', url: 'https://abqhvac.com/' },
+  { name: 'Albuquerque HVAC', url: 'https://abqhvac.com/albuquerque-hvac/' },
+];
+const title = `Albuquerque HVAC Domain Name | Why ${data.domain}`;
+const description = `Why abqhvac.com fits an Albuquerque heating and cooling company: a short ABQ HVAC .com for trucks, radio, and a Google Business Profile. For sale at ${data.price}. Domain only.`;
+---
+
+<BaseLayout title={title} description={description} crumbs={crumbs}>
+  <Nav domain={data.domain} price={data.price} />
+  <main id="main" class="pt-24 md:pt-28 pb-16">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6">
+      <Breadcrumbs crumbs={crumbs} />
+      <h1 class="font-display text-[clamp(2.1rem,6vw,3.4rem)] font-bold tracking-tight leading-tight">
+        Why abqhvac.com fits an Albuquerque HVAC company
+      </h1>
+      <p class="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
+        The domain is for sale at {data.price}. This page explains the naming logic. It is not a contractor, and it does not promise rankings.
+      </p>
+
+      <div class="prose-custom mt-10 space-y-10 text-slate-300 leading-relaxed">
+        <section>
+          <h2 class="text-2xl font-display font-semibold text-white mb-3">A name people already know how to say</h2>
+          <p>
+            Albuquerque gets shortened to ABQ every day: the airport code, local headlines, and the way residents refer to the city. HVAC is the term both homeowners and property managers use for heating and cooling. Put together, they make a seven-character .com that fits a door magnet, a yard sign, and a radio liner without spelling the full city name.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-display font-semibold text-white mb-3">Metro-wide, not a single neighborhood</h2>
+          <p>
+            Crews based in Albuquerque commonly cover the city plus Rio Rancho, Bernalillo, Los Ranchos, the South Valley, Los Lunas, Belen, and the East Mountains. A metro name is more useful than a neighborhood domain if the company runs residential service and light commercial work across Bernalillo and Sandoval counties. If you only serve one suburb, a narrower name may fit you better. If you cover the valley, abqhvac.com matches how customers search and how dispatchers answer the phone.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-display font-semibold text-white mb-3">What the name is good at</h2>
+          <ul class="list-disc pl-5 space-y-2">
+            <li>Branded recall. Someone who hears “ABQ HVAC” can type abqhvac.com.</li>
+            <li>The website field on a Google Business Profile, once you own the domain and publish your own site.</li>
+            <li>Email on your domain, such as dispatch@abqhvac.com, after the name is in your registrar.</li>
+            <li>Trucks, invoices, and sponsorships where a long URL gets cut off.</li>
+          </ul>
+        </section>
+
+        <section id="authority">
+          <h2 class="text-2xl font-display font-semibold text-white mb-3">What a domain does not do</h2>
+          <p>
+            Buying the name does not buy rankings, reviews, or call history. Scores such as Moz Domain Authority are mostly a picture of links pointing at the site on that hostname. A sales listing like this one is not a substitute for a service website. After transfer, authority is built the ordinary way: useful pages for the cities you actually serve, a consistent name and phone number, a Google Business Profile, and reviews from real jobs.
+          </p>
+          <p class="mt-3">
+            This site does not publish a Domain Authority number, because a third-party score is not part of the asset and changes on the buyer’s timeline, not the seller’s.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-display font-semibold text-white mb-3">Climate context, without the hype</h2>
+          <p>
+            Albuquerque is high desert. Cooling season is real, monsoon humidity shows up in summer storms, and winter nights still need heat. That is why HVAC companies advertise year-round here. It is also why the category word belongs in the brand. It is not a forecast, a lead count, or a guarantee of demand for any one company.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-display font-semibold text-white mb-3">The offer</h2>
+          <p>
+            abqhvac.com is available for {data.price}. Payment goes through escrow. You receive the domain name and help getting it into your registrar.
+            <a href="/acquire/" class="text-orange-400 hover:text-orange-300 font-medium">See how to acquire it</a>
+            or
+            <a href="/faq/" class="text-orange-400 hover:text-orange-300 font-medium">read the FAQ</a>.
+          </p>
+        </section>
+      </div>
+    </article>
+  </main>
+  <Footer disclaimer={data.disclaimer} email={data.email} price={data.price} footerLinks={data.footerLinks} />
+  <StickyCta price={data.price} />
+</BaseLayout>

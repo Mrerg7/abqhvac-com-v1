@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
   buyers: string[];
 }
@@ -6,15 +8,14 @@ interface Props {
 const { buyers } = Astro.props;
 ---
 
-<section class="max-w-screen-xl mx-auto px-6 py-16 border-t border-slate-800">
-  <h2 class="section-title mb-10">Perfect For</h2>
-
-  <div class="grid md:grid-cols-2 gap-x-8 gap-y-4 text-lg">
+<section class="max-w-screen-xl mx-auto px-4 sm:px-6 py-14 border-t border-slate-800">
+  <h2 class="section-title mb-8">Who this name fits</h2>
+  <ul class="grid md:grid-cols-2 gap-x-8 gap-y-4 text-base sm:text-lg">
     {buyers.map((buyer) => (
-      <div class="flex items-start gap-x-3">
-        <i class="fa-solid fa-check text-orange-400 mt-1.5 flex-shrink-0"></i>
+      <li class="flex items-start gap-x-3">
+        <Icon name="check" class="w-5 h-5 text-orange-400 mt-1 shrink-0" />
         <span>{buyer}</span>
-      </div>
+      </li>
     ))}
-  </div>
+  </ul>
 </section>

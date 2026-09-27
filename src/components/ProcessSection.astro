@@ -1,0 +1,40 @@
+---
+import Icon from './Icon.astro';
+
+const steps = [
+  {
+    icon: 'mail',
+    title: 'Tell us who is buying',
+    body: 'Send your name, company, and email. Serious inquiries get a same-style reply confirming the $18,500 asking price.',
+  },
+  {
+    icon: 'shield',
+    title: 'Pay through escrow',
+    body: 'Use Escrow.com or another licensed escrow you both accept. Do not wire the purchase price to an email address.',
+  },
+  {
+    icon: 'key',
+    title: 'Take the domain',
+    body: 'After funds clear, the registrant releases the auth code or pushes abqhvac.com to your registrar. Most .com transfers finish in a few days once you approve them.',
+  },
+];
+---
+
+<section id="transfer" class="max-w-screen-xl mx-auto px-4 sm:px-6 py-14 border-t border-slate-800">
+  <div class="max-w-2xl mb-10">
+    <h2 class="section-title mb-4">How the purchase works</h2>
+    <p class="text-slate-400 text-base sm:text-lg">Three steps. No auction clock. One buyer gets the name.</p>
+  </div>
+  <ol class="grid md:grid-cols-3 gap-4 sm:gap-6">
+    {steps.map((step, index) => (
+      <li class="glass-card p-6 sm:p-8">
+        <div class="flex items-center justify-between mb-4 text-orange-400">
+          <Icon name={step.icon} class="w-7 h-7" />
+          <span class="font-mono text-sm text-slate-500">0{index + 1}</span>
+        </div>
+        <h3 class="font-semibold text-lg mb-2">{step.title}</h3>
+        <p class="text-slate-400 leading-relaxed text-sm sm:text-base">{step.body}</p>
+      </li>
+    ))}
+  </ol>
+</section>

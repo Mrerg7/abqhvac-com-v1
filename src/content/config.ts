@@ -33,6 +33,10 @@ const siteCollection = defineCollection({
       label: z.string(),
       href: z.string(),
     })),
+    faqs: z.array(z.object({
+      q: z.string(),
+      a: z.string(),
+    })),
   }),
 });
 

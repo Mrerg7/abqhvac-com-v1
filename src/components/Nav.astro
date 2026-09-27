@@ -1,98 +1,107 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
   domain: string;
+  price: string;
 }
 
-const { domain } = Astro.props;
+const { domain, price } = Astro.props;
+
+const links = [
+  { href: '/#why', label: 'Why this name' },
+  { href: '/albuquerque-hvac/', label: 'Albuquerque' },
+  { href: '/faq/', label: 'FAQ' },
+  { href: '/acquire/', label: 'Acquire' },
+];
 ---
 
-<nav id="nav" class="fixed top-0 left-0 right-0 z-50 border-b border-slate-800 bg-slate-950/80 backdrop-blur-md transition-all duration-300">
-  <div class="max-w-screen-xl mx-auto px-6">
-    <div class="flex items-center justify-between h-20">
-      <!-- Logo -->
-      <a href="#" class="flex items-center gap-x-3">
-        <div class="w-9 h-9 bg-orange-600 rounded-xl flex items-center justify-center">
-          <i class="fa-solid fa-temperature-high text-white text-xl"></i>
-        </div>
-        <span class="font-display font-semibold text-2xl tracking-tight">{domain}</span>
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 border-b border-slate-800 bg-slate-950/90 backdrop-blur-md">
+  <div class="max-w-screen-xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16 sm:h-20 gap-3">
+      <a href="/" class="flex items-center gap-x-2.5 min-w-0">
+        <span class="w-9 h-9 shrink-0 bg-orange-600 rounded-xl flex items-center justify-center text-white">
+          <Icon name="temp" class="w-5 h-5" />
+        </span>
+        <span class="font-display font-semibold text-lg sm:text-xl tracking-tight truncate">{domain}</span>
       </a>
 
-      <!-- Desktop Menu -->
-      <div class="hidden md:flex items-center gap-x-8 text-sm">
-        <a href="#why" class="text-slate-300 hover:text-white transition-colors">Why This Domain</a>
-        <a href="#pricing" class="text-slate-300 hover:text-white transition-colors">Pricing</a>
-        <a href="#contact" class="text-slate-300 hover:text-white transition-colors">Contact</a>
+      <div class="hidden lg:flex items-center gap-x-7 text-sm">
+        {links.map((link) => (
+          <a href={link.href} class="text-slate-300 hover:text-white transition-colors">{link.label}</a>
+        ))}
       </div>
 
-      <!-- CTA Button -->
-      <a href="#contact"
-         class="hidden md:flex items-center gap-x-2 px-6 py-2.5 rounded-2xl bg-orange-600 hover:bg-orange-500 text-white font-semibold text-sm transition-all active:scale-[0.985] shadow-lg shadow-orange-600/20">
-        <span>Inquire Now</span>
-        <i class="fa-solid fa-arrow-right text-xs"></i>
+      <a href="/acquire/#inquiry"
+         class="hidden lg:inline-flex items-center gap-x-2 px-5 min-h-11 rounded-2xl bg-orange-600 hover:bg-orange-500 text-white font-semibold text-sm transition-colors shadow-lg shadow-orange-600/20">
+        <span>Buy — {price}</span>
+        <Icon name="arrow" class="w-4 h-4" />
       </a>
 
-      <!-- Mobile Menu Toggle -->
       <button id="mobile-menu-btn"
-              class="md:hidden w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
-              aria-label="Toggle menu">
-        <i class="fa-solid fa-bars text-xl"></i>
+              class="lg:hidden w-11 h-11 shrink-0 flex items-center justify-center text-slate-300 hover:text-white"
+              aria-label="Open menu"
+              aria-expanded="false"
+              aria-controls="mobile-menu">
+        <Icon name="menu" class="w-6 h-6" />
       </button>
     </div>
   </div>
 </nav>
 
-<!-- Mobile Menu -->
-<div id="mobile-menu" class="hidden md:hidden fixed inset-0 z-40 bg-slate-950/95 pt-20 px-6">
-  <div class="flex flex-col gap-y-1 text-lg font-medium pt-8">
-    <a href="#why" class="mobile-link py-4 border-b border-white/10 text-slate-300">Why This Domain</a>
-    <a href="#pricing" class="mobile-link py-4 border-b border-white/10 text-slate-300">Pricing</a>
-    <a href="#contact" class="mobile-link py-4 border-b border-white/10 text-slate-300">Contact</a>
-
-    <div class="pt-8">
-      <a href="#contact"
-         class="w-full flex items-center justify-center gap-x-2 px-6 py-3.5 rounded-3xl bg-orange-600 text-white font-semibold text-base active:scale-[0.985]">
-        Inquire Now
-      </a>
-    </div>
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-40 bg-slate-950 pt-16 sm:pt-20 px-4 sm:px-6" hidden>
+  <div class="flex flex-col text-lg font-medium pt-4">
+    {links.map((link) => (
+      <a href={link.href} class="mobile-link py-4 min-h-11 border-b border-white/10 text-slate-200">{link.label}</a>
+    ))}
+    <a href="/acquire/#inquiry" class="mobile-link mt-6 min-h-12 flex items-center justify-center rounded-2xl bg-orange-600 text-white font-semibold">
+      Buy — {price}
+    </a>
   </div>
 </div>
 
 <script>
-  const nav = document.getElementById('nav');
   const btn = document.getElementById('mobile-menu-btn');
   const menu = document.getElementById('mobile-menu');
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      nav.classList.add('shadow-xl', 'shadow-black/20');
-    } else {
-      nav.classList.remove('shadow-xl', 'shadow-black/20');
-    }
-  });
+  const setOpen = (open: boolean) => {
+    if (!btn || !menu) return;
+    menu.classList.toggle('hidden', !open);
+    menu.toggleAttribute('hidden', !open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    btn.innerHTML = open
+      ? '<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>'
+      : '<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+    document.body.classList.toggle('overflow-hidden', open);
+  };
 
   btn?.addEventListener('click', () => {
-    if (menu.classList.contains('hidden')) {
-      menu.classList.remove('hidden');
-      btn.innerHTML = '<i class="fa-solid fa-times text-xl"></i>';
-    } else {
-      menu.classList.add('hidden');
-      btn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
-    }
+    setOpen(btn.getAttribute('aria-expanded') !== 'true');
   });
 
-  document.querySelectorAll('.mobile-link').forEach(link => {
-    link.addEventListener('click', () => {
-      menu.classList.add('hidden');
-      btn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
-    });
+  document.querySelectorAll('.mobile-link').forEach((link) => {
+    link.addEventListener('click', () => setOpen(false));
   });
 
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
+  document.querySelectorAll('a[href*="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', (event) => {
+      const href = anchor.getAttribute('href') || '';
+      const hashIndex = href.indexOf('#');
+      if (hashIndex < 0) return;
+      const hash = href.slice(hashIndex);
+      if (hash.length < 2) return;
+      let target: Element | null = null;
+      try {
+        target = document.querySelector(hash);
+      } catch {
+        return;
+      }
+      const samePage = href.startsWith('#') || href.startsWith('/#') || href.startsWith(`${location.pathname}#`);
+      if (target && samePage) {
+        event.preventDefault();
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.pushState(null, '', hash);
       }
     });
   });

@@ -1,0 +1,40 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ProcessSection from '../components/ProcessSection.astro';
+import PricingSection from '../components/PricingSection.astro';
+import ContactSection from '../components/ContactSection.astro';
+import Footer from '../components/Footer.astro';
+import StickyCta from '../components/StickyCta.astro';
+
+const site = await getEntry('site', 'default');
+const data = site!.data;
+const crumbs = [
+  { name: 'Home', url: 'https://abqhvac.com/' },
+  { name: 'Acquire', url: 'https://abqhvac.com/acquire/' },
+];
+const title = `Acquire ${data.domain} | Buy It Now ${data.price}`;
+const description = `Buy the domain ${data.domain} for ${data.price}. Escrow payment, registrar transfer, and email handover. Domain name only.`;
+---
+
+<BaseLayout title={title} description={description} crumbs={crumbs} includeProduct={true}>
+  <Nav domain={data.domain} price={data.price} />
+  <main id="main" class="pt-24 md:pt-28">
+    <div class="max-w-screen-xl mx-auto px-4 sm:px-6">
+      <Breadcrumbs crumbs={crumbs} />
+      <h1 class="font-display text-[clamp(2.1rem,6vw,3.4rem)] font-bold tracking-tight leading-tight max-w-3xl">
+        Buy abqhvac.com for {data.price}
+      </h1>
+      <p class="mt-4 max-w-2xl text-base sm:text-lg text-slate-300 leading-relaxed">
+        One buyer. One .com. You pay through escrow, then the name moves to your registrar. Nothing else — no trucks, no license, no phone number — is part of this sale.
+      </p>
+    </div>
+    <ProcessSection />
+    <PricingSection price={data.price} includes={data.pricingIncludes} />
+    <ContactSection email={data.email} emailSubject={data.ctaEmailSubject} price={data.price} />
+  </main>
+  <Footer disclaimer={data.disclaimer} email={data.email} price={data.price} footerLinks={data.footerLinks} />
+  <StickyCta price={data.price} href="#inquiry" />
+</BaseLayout>
